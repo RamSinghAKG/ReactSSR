@@ -3,6 +3,7 @@ import React from 'react';
 import App from './App';
 import HomePage from './pages/HomePage';
 import UsersListPage from './pages/UsersListPage';
+import NotFoundPage from './pages/NotFoundPage';
 export default [
   {
     ...App,
@@ -15,6 +16,9 @@ export default [
       {
         ...UsersListPage,
         path: '/users'
+      },
+      {
+        ...NotFoundPage
       }
     ]
   }

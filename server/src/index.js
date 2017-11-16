@@ -11,7 +11,7 @@ const app = express();
 app.use('/api',
 proxy('http://react-ssr-api.herokuapp.com',{
   proxyReqOptDecorator(opts) {
-      opts.headers['x-forwarded-host'] = 'localhost:5000';
+      opts.headers['x-forwarded-host'] = 'localhost:3000';
       return opts;
   }
 }));
@@ -23,10 +23,15 @@ app.get('*', (req, res) => {
       return route.loadData ? route.loadData(store) : null;
     });
     Promise.all(promises).then(() => {
-      res.send(renderer(req, store));
+      const context = {};
+      const content = renderer(req, store, context);
+      if (context.notFound) {
+        res.status(404);
+      }
+      res.send(content);
     });
 });
 
-app.listen(5000, () => {
-  console.log('listening on port 5000');
+app.listen(3000, () => {
+  console.log('listening on port 3000');
 });
